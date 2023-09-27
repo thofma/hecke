@@ -570,7 +570,6 @@ function mul!(c::MatElem{T}, A::SMat{T}, b::MatElem{T}) where T
 end
 
 # - SMat{T} * MatElem{T} as MatElem{T}
-
 @doc raw"""
     mul(A::SMat{T}, b::MatElem{T}) -> MatElem
 
@@ -583,7 +582,6 @@ function mul(A::SMat{T}, b::MatElem{T}) where T
 end
 
 # - SRow{T} * SMat{T} as SRow{T}
-
 @doc raw"""
     mul(A::SRow, B::SMat) -> SRow
 
@@ -596,6 +594,23 @@ function mul(A::SRow{T}, B::SMat{T}) where T
       continue
     end
     C = add_scaled_row(B[p], C, v)
+  end
+  return C
+end
+
+# - SMat{T} * SMat{T} as SMat{T}
+@doc raw"""
+    mul(A::SMat, B::SMat) -> SMat
+
+Return the product $A\cdot B$ as a sparse matrix.
+"""
+function mul(A::SMat{T}, B::SMat{T}) where {T}
+  @req ncols(A) == nrows(B) "Matrices must have compatible dimensions"
+  @req base_ring(A) == base_ring(B) "Matrices must have same base ring"
+  C = sparse_matrix(base_ring(B), nrows(A), ncols(B))
+  for (i, rA) in enumerate(A.rows)
+    rC = mul(rA, B)
+    C[i] = rC
   end
   return C
 end

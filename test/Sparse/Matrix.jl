@@ -156,6 +156,11 @@ using Hecke.SparseArrays
   w = @inferred mul(v, D)
   @test w == sparse_row(FlintZZ)
 
+  D1 = sparse_matrix(FlintZZ, [81 0 2; 31 0 -5])
+  D2 = sparse_matrix(FlintZZ, [12 403 -23; 0 0 122; -1 2 99])
+  E = @inferred mul(D1, D2)
+  @test E == sparse_matrix(matrix(D1) * matrix(D2))
+
   # Addition
 
   D = sparse_matrix(FlintZZ, [1 5 3; 0 0 0; 0 1 0])
