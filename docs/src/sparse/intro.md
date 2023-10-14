@@ -209,6 +209,7 @@ Hecke.mul(::SMat{T}, ::AbstractVector{T}) where {T}
 Hecke.mul(::SMat{T}, ::AbstractMatrix{T})  where {T}
 Hecke.mul(::SMat{T}, ::MatElem{T}) where {T}
 Hecke.mul(::SRow{T}, ::SMat{T}) where {T}
+Hecke.mul(::SMat{T}, ::SMat{T}) where {T}
 ```
 
 Other:
